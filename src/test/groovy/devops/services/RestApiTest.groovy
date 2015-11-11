@@ -14,9 +14,14 @@ import spock.lang.Specification
  */
 @ContextConfiguration(classes = [Application])
 class RestApiTest extends Specification {
+    RestApi restApi
+
+    def setup() { restApi = new RestApi() }
+
+    def cleanup() { restApi = null }
+
     def 'Configure and execute a request'() {
         setup:
-        RestApi restApi = new RestApi()
         restApi.with {
             httpMethod = 'post'
             uri = 'bob.com'
@@ -26,6 +31,7 @@ class RestApiTest extends Specification {
             requestBody = 'requestBody'
             contentType = 'contentType'
         }
+
         def mockClient = Mock(RESTClient)
         restApi.client = mockClient
 
@@ -50,7 +56,6 @@ class RestApiTest extends Specification {
 
     def 'Configure and execute a preemptive authentication request'() {
         setup:
-        RestApi restApi = new RestApi()
         restApi.with {
             httpMethod = 'post'
             uri = 'bob.com'
@@ -89,7 +94,6 @@ class RestApiTest extends Specification {
 
     def 'Configure and execute a request with a custom header'() {
         setup:
-        RestApi restApi = new RestApi()
         restApi.with {
             httpMethod = 'post'
             uri = 'bob.com'
@@ -127,7 +131,6 @@ class RestApiTest extends Specification {
         setup:
         System.setProperty("${protocol}.proxyHost", 'www.abc.com')
         System.setProperty("${protocol}.proxyPort", port.toString())
-        RestApi restApi = new RestApi()
         restApi.with {
             httpMethod = 'post'
             uri = 'bob.com'
@@ -152,15 +155,13 @@ class RestApiTest extends Specification {
 
         where:
         protocol | port
-        'http' | 8080
-        'https' | 8443
+        'http'   | 8080
+        'https'  | 8443
     }
 
     def 'Configure and execute a request with a custom string response handler'() {
         setup:
         def responseCalled = false
-
-        RestApi restApi = new RestApi()
         restApi.with {
             uri = 'bob.com'
             contentType = 'contentType'
@@ -174,7 +175,7 @@ class RestApiTest extends Specification {
         def mockResponse = Mock(HttpResponseDecorator) {
             getEntity() >> {
                 def entity = new BasicHttpEntity()
-                entity.content = new ByteArrayInputStream( 'called'.getBytes() )
+                entity.content = new ByteArrayInputStream('called'.getBytes())
                 entity
             }
         }
@@ -194,8 +195,6 @@ class RestApiTest extends Specification {
     def 'Configure and execute a request with a custom input stream response handler'() {
         setup:
         def responseCalled = false
-
-        RestApi restApi = new RestApi()
         restApi.with {
             uri = 'bob.com'
             contentType = 'contentType'
@@ -209,7 +208,7 @@ class RestApiTest extends Specification {
         def mockResponse = Mock(HttpResponseDecorator) {
             getEntity() >> {
                 def entity = new BasicHttpEntity()
-                entity.content = new ByteArrayInputStream( 'called'.getBytes() )
+                entity.content = new ByteArrayInputStream('called'.getBytes())
                 entity
             }
         }
@@ -229,8 +228,6 @@ class RestApiTest extends Specification {
     def 'Configure and execute a request with a custom data response handler'() {
         setup:
         def responseCalled = false
-
-        RestApi restApi = new RestApi()
         restApi.with {
             uri = 'bob.com'
             contentType = 'contentType'

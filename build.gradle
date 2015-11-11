@@ -11,6 +11,9 @@ apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply from: "${rootDir}/gradle/integTest.gradle"
+apply from: "${rootDir}/gradle/codenarc.gradle"
+apply from: "${rootDir}/gradle/jacoco.gradle"
 
 jar {
     baseName = 'devops-initializr'
@@ -26,7 +29,6 @@ targetCompatibility = 1.8
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:2.4.1"
-    //compile "org.springframework.boot:spring-boot-starter-log4j2"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "org.hibernate:hibernate-validator"
     compile "org.apache.tomcat.embed:tomcat-embed-el"

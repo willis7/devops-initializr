@@ -1,0 +1,20 @@
+/**
+ * Integration Tests Plugin
+ * This plugin applies an integration test source set to the project. Can be Java or Groovy.
+ * Must be applied after the language pluging (java, groovy) or a plugin which also imports
+ * such as the ear or war plugins.
+ */
+sourceSets {
+    integTest {
+        java.srcDir file('src/integTest/groovy')
+        resources.srcDir file('src/integTest/resources')
+        compileClasspath = sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath = output + compileClasspath
+    }
+}
+
+task integTest(type: Test, group: 'verification') {
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+    reports.html.destination = file("${buildDir}/reports/integTests")
+}

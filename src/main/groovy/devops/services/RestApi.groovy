@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 @Component
 class RestApi {
 
-    private static final Logger log = LoggerFactory.getLogger(RestApi.class)
+    private static final Logger logger = LoggerFactory.getLogger(RestApi)
 
     RESTClient client
     String httpMethod
@@ -39,7 +39,7 @@ class RestApi {
         String proxyHost = System.getProperty("${protocol}.proxyHost", '')
         int proxyPort = System.getProperty("${protocol}.proxyPort", '0') as int
         if (StringUtils.isNotBlank(proxyHost) && proxyPort > 0) {
-            log.info "Using ${protocol.toUpperCase()} proxy: $proxyHost:$proxyPort"
+            logger.info "Using ${protocol.toUpperCase()} proxy: $proxyHost:$proxyPort"
             client.setProxy(proxyHost, proxyPort, protocol)
         }
     }
@@ -75,12 +75,12 @@ class RestApi {
             params.requestContentType = requestContentType
         }
 
-        log.info "Executing a '$httpMethod' request to '$uri'"
+        logger.info "Executing a '$httpMethod' request to '$uri'"
 
         try {
             serverResponse = client."${httpMethod.toLowerCase()}"(params)
             if (noResponseHandler()) {
-                log.info "Server Response:" + System.lineSeparator() + serverResponse.getData()
+                logger.info "Server Response:" + System.lineSeparator() + serverResponse.getData()
             } else {
                 callResponseHandler()
             }
