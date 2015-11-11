@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <title>DevOps Initializr</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+        <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+              th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+              rel="stylesheet" media="screen" />
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+                th:src="@{/webjars/bootstrap/3.3.4/bootstrap.min.js}"></script>
+        <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+                th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+        <link href="../static/css/devops.css"
+              th:href="@{css/devops.css}" rel="stylesheet" media="screen"/>
+    </head>
+    <body>
+        <div class="page-header">
+            <h1>DevOps Initializr</h1>
+        </div>
+
+        <div class="container">
+            <p>Please provide the details below for on-boarding onto the applications selected below.</p>
+            <form action="#" th:action="@{/project}" th:object="${project}" method="post">
+                <div class="form-group">
+                    <label for="key">Project Key:</label>
+                    <input type="text" class="form-control" id="key" th:field="*{key}" />
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('key')}" th:errors="*{key}">
+                        <p>Error: Min 3 characters, Max 10 characters</p>
+                    </div>
+
+                    <label for="name">Project Name:</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        <p>Error: Min 3 characters, Max 30 characters</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
