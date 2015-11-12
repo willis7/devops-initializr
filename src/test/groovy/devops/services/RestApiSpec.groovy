@@ -1,19 +1,16 @@
 package devops.services
 
-import devops.Application
 import groovyx.net.http.AuthConfig
 import groovyx.net.http.HttpResponseDecorator
 import groovyx.net.http.RESTClient
 import org.apache.http.HttpHeaders
 import org.apache.http.entity.BasicHttpEntity
-import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 /**
  * @author Sion Williams
  */
-@ContextConfiguration(classes = [Application])
-class RestApiTest extends Specification {
+class RestApiSpec extends Specification {
     RestApi restApi
 
     def setup() { restApi = new RestApi() }

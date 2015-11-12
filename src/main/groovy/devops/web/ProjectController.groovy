@@ -15,7 +15,6 @@ import javax.validation.Valid
  */
 @Controller
 class ProjectController {
-
     @RequestMapping(value="/project", method=RequestMethod.GET)
     String projectForm(Model model) {
         model.addAttribute("project", new Project())
@@ -31,5 +30,4 @@ class ProjectController {
         model.addAttribute("project", project)
         return "result"
     }
-
 }
