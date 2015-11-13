@@ -12,6 +12,7 @@ buildscript {
 }
 
 jacocoTestReport {
+    group 'documentation'
     reports {
         xml.enabled true
         csv.enabled false
@@ -20,3 +21,19 @@ jacocoTestReport {
 }
 
 test.finalizedBy jacocoTestReport
+
+task jacocoIntegTestReport(type: JacocoReport) {
+    group 'documentation'
+    sourceSets sourceSets.main
+    executionData integTest
+    reports.html.destination "${buildDir}/reports/jacoco/integTestReport"
+}
+
+task jacocoCombinedTestReport(type: JacocoReport) {
+    group 'documentation'
+    sourceSets sourceSets.main
+    executionData test, integTest
+    reports.html.destination "${buildDir}/reports/jacoco/combinedTestReport"
+}
+
+integTest.finalizedBy (jacocoIntegTestReport, jacocoCombinedTestReport)
