@@ -14,4 +14,10 @@ class Project {
     @NotNull
     @Size(min=3, max=30)
     String name
+
+    @NotNull
+    String projectTypeKey
+
+    @NotNull
+    String lead
 }
