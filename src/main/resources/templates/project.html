@@ -21,25 +21,29 @@
 
         <div class="container">
             <p>Please provide the details below for on-boarding onto the applications selected below.</p>
+
             <form action="#" th:action="@{/project}" th:object="${project}" method="post">
                 <div class="form-group">
-                    <label for="key">Project Key:</label>
-                    <input type="text" class="form-control" id="key" th:field="*{key}" />
+                    <label th:for="${#ids.next('key')}" >Project Key:</label>
+                    <input type="text" class="form-control" th:field="*{key}" />
                     <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('key')}" th:errors="*{key}">
                         <p>Error: Min 3 characters, Max 10 characters</p>
                     </div>
 
-                    <label for="name">Project Name:</label>
-                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                    <label th:for="${#ids.next('name')}">Project Name:</label>
+                    <input type="text" class="form-control" th:field="*{name}" />
                     <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
                         <p>Error: Min 3 characters, Max 30 characters</p>
                     </div>
 
-                    <label for="projectTypeKey">Project Type Key:</label>
-                    <input type="text" class="form-control" id="projectTypeKey" th:field="*{projectTypeKey}" />
+                    <label th:for="${#ids.next('projectTypeKey')}">Project Type Key:</label>
+                    <input type="text" class="form-control" th:field="*{projectTypeKey}" />
 
-                    <label for="lead">Project Lead:</label>
-                    <input type="text" class="form-control" id="lead" th:field="*{lead}" />
+                    <label th:for="${#ids.next('lead')}">Project Lead:</label>
+                    <input type="text" class="form-control" th:field="*{lead}" />
+
+                    <input type="checkbox" th:field="*{jira}" />
+                    <label th:for="${#ids.prev('jira')}">Jira</label>
                 </div>
 
                 <button type="submit" class="btn btn-default">Submit</button>

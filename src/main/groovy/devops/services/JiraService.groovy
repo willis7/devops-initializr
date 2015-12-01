@@ -57,12 +57,6 @@ class JiraService {
         String uri = jiraApiUrl + resource
         HttpEntity httpEntity = new HttpEntity(project, getHttpHeaders())
 
-//        // Some dirtyness to stop an exception being thrown
-//        restTemplate.setErrorHandler(new DefaultResponseErrorHandler(){
-//            protected boolean hasError(HttpStatus statusCode) {
-//                return false;
-//            }})
-
         ResponseEntity<String> response = restTemplate.exchange(uri, POST, httpEntity, String.class)
         println response.getHeaders().getLocation()
         println response.hasBody()

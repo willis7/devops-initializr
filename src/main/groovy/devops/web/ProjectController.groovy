@@ -18,12 +18,8 @@ import javax.validation.Valid
 @Controller
 @RequestMapping(value = ["/","/project"])
 class ProjectController {
-    private JiraService jiraService
-
     @Autowired
-    ProjectController(JiraService jiraService) {
-        this.jiraService = jiraService
-    }
+    JiraService jiraService
 
     @RequestMapping(method = RequestMethod.GET)
     String projectForm(Model model) {
@@ -36,9 +32,13 @@ class ProjectController {
         if (bindingResult.hasErrors()) {
             return "project"
         }
-        def location = jiraService.createProject(project)
+
+        if(project.jira) {
+            def location = jiraService.createProject(project)
+            model.addAttribute("location", location)
+        }
+
         model.addAttribute("project", project)
-        model.addAttribute("location", location)
         return "result"
     }
 }

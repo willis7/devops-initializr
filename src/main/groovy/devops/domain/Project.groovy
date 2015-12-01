@@ -20,4 +20,6 @@ class Project {
 
     @NotNull
     String lead
+
+    Boolean jira
 }
