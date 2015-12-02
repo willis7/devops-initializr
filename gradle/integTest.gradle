@@ -5,16 +5,21 @@
  * such as the ear or war plugins.
  */
 sourceSets {
-    integTest {
+    integrationTest {
         java.srcDir file('src/integTest/groovy')
         resources.srcDir file('src/integTest/resources')
-        compileClasspath = sourceSets.main.output + configurations.testRuntime
-        runtimeClasspath = output + compileClasspath
+        compileClasspath += sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
     }
 }
 
-task integTest(type: Test, group: 'verification') {
-    testClassesDir = sourceSets.integTest.output.classesDir
-    classpath = sourceSets.integTest.runtimeClasspath
-    reports.html.destination = file("${buildDir}/reports/integTests")
+task integrationTest(type: Test) {
+    group = "verification"
+    description = "Runs the integration tests."
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    reports.html.destination = file("${buildDir}/reports/integrationTests")
+    mustRunAfter test
 }
+
+check.dependsOn integrationTest

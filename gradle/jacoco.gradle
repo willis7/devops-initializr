@@ -25,15 +25,15 @@ test.finalizedBy jacocoTestReport
 task jacocoIntegTestReport(type: JacocoReport) {
     group 'documentation'
     sourceSets sourceSets.main
-    executionData integTest
+    executionData integrationTest
     reports.html.destination "${buildDir}/reports/jacoco/integTestReport"
 }
 
 task jacocoCombinedTestReport(type: JacocoReport) {
     group 'documentation'
     sourceSets sourceSets.main
-    executionData test, integTest
+    executionData test, integrationTest
     reports.html.destination "${buildDir}/reports/jacoco/combinedTestReport"
 }
 
-integTest.finalizedBy (jacocoIntegTestReport, jacocoCombinedTestReport)
+integrationTest.finalizedBy (jacocoIntegTestReport, jacocoCombinedTestReport)
