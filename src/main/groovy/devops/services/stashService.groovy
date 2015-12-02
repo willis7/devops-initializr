@@ -13,24 +13,23 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION
 import static org.springframework.http.HttpMethod.POST
 
 /**
- * Rest client for the Jira Api
  * @author Sion Williams
  */
 @Service
-class JiraService {
+class StashService {
     @Autowired
     RestTemplate restTemplate
 
-    @Value('${jira.api.url}')
-    private String jiraApiUrl
+    @Value('${stash.api.url}')
+    private String stashApiUrl
 
-    @Value('${jira.api.un}')
+    @Value('${stash.api.un}')
     private String username
 
-    @Value('${jira.api.pw}')
+    @Value('${stash.api.pw}')
     private String password
 
-    @Value('${jira.api.version}')
+    @Value('${stash.api.version}')
     private String version
 
     /**
@@ -49,20 +48,14 @@ class JiraService {
     }
 
     /**
-     * Create Jira Project via REST POST
+     * Create Stash Project via REST POST
      * @param project
      * @return Location of the new resource
      */
     def createProject(Project project) {
-        String resource = "/rest/api/${version}/project"
-        String uri = jiraApiUrl + resource
+        String resource = "/rest/api/${version}/projects"
+        String uri = stashApiUrl + resource
         HttpEntity httpEntity = new HttpEntity(project, getHttpHeaders())
-
-//        restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
-//            protected boolean hasError(HttpStatus statusCode) {
-//                return false;
-//            }
-//        })
 
         ResponseEntity<String> response = restTemplate.exchange(uri, POST, httpEntity, String.class)
         println response.getHeaders().getLocation()

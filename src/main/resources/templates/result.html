@@ -8,7 +8,8 @@
     <h1>Result</h1>
     <p th:text="'Key: ' + ${project.key}" />
     <p th:text="'Name: ' + ${project.name}" />
-    <p th:text="'Location: ' + ${location}" />
+    <p th:text="'Jira URL: ' + ${jiraLocation}" />
+    <p th:text="'Stash URL: ' + ${stashLocation}" />
     <a href="/project">Create another project</a>
 </body>
 </html>

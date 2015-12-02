@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head lang="en">
-        <title>DevOps Initializr</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head lang="en">
+    <title>DevOps Initializr</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-        <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-              th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
-              rel="stylesheet" media="screen" />
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
-                th:src="@{/webjars/bootstrap/3.3.4/bootstrap.min.js}"></script>
-        <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-                th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
-        <link href="../static/css/devops.css"
-              th:href="@{css/devops.css}" rel="stylesheet" media="screen"/>
-    </head>
-    <body>
-        <div class="page-header">
-            <h1>DevOps Initializr</h1>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.4/bootstrap.min.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <link href="../static/css/devops.css"
+          th:href="@{css/devops.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div class="page-header">
+    <h1>DevOps Initializr</h1>
+</div>
+
+<div class="container">
+    <p>Please provide the details below for on-boarding onto the applications selected below.</p>
+
+    <form action="#" th:action="@{/project}" method="post">
+        <div class="form-group">
+            <label th:for="${#ids.next('key')}">Project Key:</label>
+            <input type="text" class="form-control" th:field="${project.key}"/>
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('key')}" th:errors="${project.key}">
+                <p>Error: Min 3 characters, Max 10 characters</p>
+            </div>
+
+            <label th:for="${#ids.next('name')}">Project Name:</label>
+            <input type="text" class="form-control" th:field="${project.name}"/>
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}"
+                 th:errors="${project.name}">
+                <p>Error: Min 3 characters, Max 30 characters</p>
+            </div>
+
+            <label th:for="${#ids.next('projectTypeKey')}">Project Type Key:</label>
+            <input type="text" class="form-control" th:field="${project.projectTypeKey}"/>
+
+            <label th:for="${#ids.next('lead')}">Project Lead:</label>
+            <input type="text" class="form-control" th:field="${project.lead}"/>
+
+
+            <input type="checkbox" th:field="${features.jira}" name="jira"/>
+            <label th:for="${#ids.prev('jira')}">Jira</label>
+
+            <input type="checkbox" th:field="${features.stash}" name="stash"/>
+            <label th:for="${#ids.prev('stash')}">Stash</label>
+
         </div>
 
-        <div class="container">
-            <p>Please provide the details below for on-boarding onto the applications selected below.</p>
-
-            <form action="#" th:action="@{/project}" th:object="${project}" method="post">
-                <div class="form-group">
-                    <label th:for="${#ids.next('key')}" >Project Key:</label>
-                    <input type="text" class="form-control" th:field="*{key}" />
-                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('key')}" th:errors="*{key}">
-                        <p>Error: Min 3 characters, Max 10 characters</p>
-                    </div>
-
-                    <label th:for="${#ids.next('name')}">Project Name:</label>
-                    <input type="text" class="form-control" th:field="*{name}" />
-                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
-                        <p>Error: Min 3 characters, Max 30 characters</p>
-                    </div>
-
-                    <label th:for="${#ids.next('projectTypeKey')}">Project Type Key:</label>
-                    <input type="text" class="form-control" th:field="*{projectTypeKey}" />
-
-                    <label th:for="${#ids.next('lead')}">Project Lead:</label>
-                    <input type="text" class="form-control" th:field="*{lead}" />
-
-                    <input type="checkbox" th:field="*{jira}" />
-                    <label th:for="${#ids.prev('jira')}">Jira</label>
-                </div>
-
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-        </div>
-    </body>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
+</body>
 </html>

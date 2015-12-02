@@ -8,11 +8,11 @@ import javax.validation.constraints.Size
  */
 class Project {
     @NotNull
-    @Size(min=3, max=10)
+    @Size(min = 3, max = 10)
     String key
 
     @NotNull
-    @Size(min=3, max=30)
+    @Size(min = 3, max = 30)
     String name
 
     @NotNull
@@ -20,6 +20,4 @@ class Project {
 
     @NotNull
     String lead
-
-    Boolean jira
 }
