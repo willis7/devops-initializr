@@ -33,10 +33,11 @@ class ProjectController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    String projectSubmit(@ModelAttribute @Valid Project project,
-                         Features features,
+    String projectSubmit(@ModelAttribute Project project,
+                         @ModelAttribute Features features,
                          BindingResult bindingResult,
                          Model model) {
+
         if (bindingResult.hasErrors()) {
             return "project"
         }

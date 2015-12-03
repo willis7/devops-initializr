@@ -34,6 +34,20 @@ class JiraService {
     private String version
 
     /**
+     * Create Jira Project via REST POST
+     * @param project
+     * @return Location of the new resource
+     */
+    def createProject(Project project) {
+        String resource = "/rest/api/${version}/project"
+        String uri = jiraApiUrl + resource
+        HttpEntity httpEntity = new HttpEntity(project, getHttpHeaders())
+
+        ResponseEntity<String> response = restTemplate.exchange(uri, POST, httpEntity, String.class)
+        return response.getHeaders().getLocation()
+    }
+
+    /**
      * Return a Http Header with Basic Authentication set
      * @return HttpHeaders configured for Basic Authentication
      */
@@ -46,27 +60,5 @@ class JiraService {
         headers.set(AUTHORIZATION, 'Basic ' + encodedAuth)
 
         return headers
-    }
-
-    /**
-     * Create Jira Project via REST POST
-     * @param project
-     * @return Location of the new resource
-     */
-    def createProject(Project project) {
-        String resource = "/rest/api/${version}/project"
-        String uri = jiraApiUrl + resource
-        HttpEntity httpEntity = new HttpEntity(project, getHttpHeaders())
-
-//        restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
-//            protected boolean hasError(HttpStatus statusCode) {
-//                return false;
-//            }
-//        })
-
-        ResponseEntity<String> response = restTemplate.exchange(uri, POST, httpEntity, String.class)
-        println response.getHeaders().getLocation()
-        println response.hasBody()
-        return response.getHeaders().getLocation()
     }
 }

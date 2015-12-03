@@ -26,16 +26,9 @@
         <div class="form-group">
             <label th:for="${#ids.next('key')}">Project Key:</label>
             <input type="text" class="form-control" th:field="${project.key}"/>
-            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('key')}" th:errors="${project.key}">
-                <p>Error: Min 3 characters, Max 10 characters</p>
-            </div>
 
             <label th:for="${#ids.next('name')}">Project Name:</label>
             <input type="text" class="form-control" th:field="${project.name}"/>
-            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}"
-                 th:errors="${project.name}">
-                <p>Error: Min 3 characters, Max 30 characters</p>
-            </div>
 
             <label th:for="${#ids.next('projectTypeKey')}">Project Type Key:</label>
             <input type="text" class="form-control" th:field="${project.projectTypeKey}"/>
@@ -43,13 +36,11 @@
             <label th:for="${#ids.next('lead')}">Project Lead:</label>
             <input type="text" class="form-control" th:field="${project.lead}"/>
 
-
             <input type="checkbox" th:field="${features.jira}" name="jira"/>
             <label th:for="${#ids.prev('jira')}">Jira</label>
 
             <input type="checkbox" th:field="${features.stash}" name="stash"/>
             <label th:for="${#ids.prev('stash')}">Stash</label>
-
         </div>
 
         <button type="submit" class="btn btn-default">Submit</button>

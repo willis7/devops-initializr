@@ -5,19 +5,23 @@ import devops.domain.Project
 import devops.services.JiraService
 import devops.services.StashService
 import org.springframework.ui.Model
-import org.springframework.validation.BindingResult
 import spock.lang.Specification
 
 /**
  * @author Sion Williams
  */
 class ProjectControllerSpec extends Specification {
+
     ProjectController projectController
+
     JiraService jiraService = Mock()
+
     StashService stashService = Mock()
-    BindingResult bindingResult = Mock()
+
     Model model = Mock()
+
     Project project = Mock()
+
     Features features = Mock()
 
     def setup() {
@@ -31,7 +35,7 @@ class ProjectControllerSpec extends Specification {
         features.getJira() >> true
 
         when:
-        projectController.projectSubmit(project, features, bindingResult, model)
+        projectController.projectSubmit(project, features, model)
 
         then:
         1 * jiraService.createProject(_)
@@ -42,7 +46,7 @@ class ProjectControllerSpec extends Specification {
         features.getJira() >> false
 
         when:
-        projectController.projectSubmit(project, features, bindingResult, model)
+        projectController.projectSubmit(project, features, model)
 
         then:
         0 * jiraService.createProject(_)
@@ -53,7 +57,7 @@ class ProjectControllerSpec extends Specification {
         features.getStash() >> true
 
         when:
-        projectController.projectSubmit(project, features, bindingResult, model)
+        projectController.projectSubmit(project, features, model)
 
         then:
         1 * stashService.createProject(_)
@@ -64,9 +68,14 @@ class ProjectControllerSpec extends Specification {
         features.getStash() >> false
 
         when:
-        projectController.projectSubmit(project, features, bindingResult, model)
+        projectController.projectSubmit(project, features, model)
 
         then:
         0 * stashService.createProject(_)
+    }
+
+    def "projectSubmit() should return the 'result' view when successful"() {
+        expect:
+        "result" == projectController.projectSubmit(project, features, model)
     }
 }

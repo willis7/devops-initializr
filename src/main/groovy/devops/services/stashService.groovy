@@ -33,6 +33,20 @@ class StashService {
     private String version
 
     /**
+     * Create Stash Project via REST POST
+     * @param project
+     * @return Location of the new resource
+     */
+    def createProject(Project project) {
+        String resource = "/rest/api/${version}/projects"
+        String uri = stashApiUrl + resource
+        HttpEntity httpEntity = new HttpEntity(project, getHttpHeaders())
+
+        ResponseEntity<String> response = restTemplate.exchange(uri, POST, httpEntity, String.class)
+        return response.getHeaders().getLocation()
+    }
+
+    /**
      * Return a Http Header with Basic Authentication set
      * @return HttpHeaders configured for Basic Authentication
      */
@@ -45,21 +59,5 @@ class StashService {
         headers.set(AUTHORIZATION, 'Basic ' + encodedAuth)
 
         return headers
-    }
-
-    /**
-     * Create Stash Project via REST POST
-     * @param project
-     * @return Location of the new resource
-     */
-    def createProject(Project project) {
-        String resource = "/rest/api/${version}/projects"
-        String uri = stashApiUrl + resource
-        HttpEntity httpEntity = new HttpEntity(project, getHttpHeaders())
-
-        ResponseEntity<String> response = restTemplate.exchange(uri, POST, httpEntity, String.class)
-        println response.getHeaders().getLocation()
-        println response.hasBody()
-        return response.getHeaders().getLocation()
     }
 }
