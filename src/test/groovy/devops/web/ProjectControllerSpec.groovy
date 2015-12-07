@@ -35,7 +35,7 @@ class ProjectControllerSpec extends Specification {
         features.getJira() >> true
 
         when:
-        projectController.projectSubmit(project, features, model)
+        projectController.processProjectForm(project, features, model)
 
         then:
         1 * jiraService.createProject(_)
@@ -46,7 +46,7 @@ class ProjectControllerSpec extends Specification {
         features.getJira() >> false
 
         when:
-        projectController.projectSubmit(project, features, model)
+        projectController.processProjectForm(project, features, model)
 
         then:
         0 * jiraService.createProject(_)
@@ -57,7 +57,7 @@ class ProjectControllerSpec extends Specification {
         features.getStash() >> true
 
         when:
-        projectController.projectSubmit(project, features, model)
+        projectController.processProjectForm(project, features, model)
 
         then:
         1 * stashService.createProject(_)
@@ -68,7 +68,7 @@ class ProjectControllerSpec extends Specification {
         features.getStash() >> false
 
         when:
-        projectController.projectSubmit(project, features, model)
+        projectController.processProjectForm(project, features, model)
 
         then:
         0 * stashService.createProject(_)
@@ -76,6 +76,6 @@ class ProjectControllerSpec extends Specification {
 
     def "projectSubmit() should return the 'result' view when successful"() {
         expect:
-        "result" == projectController.projectSubmit(project, features, model)
+        "result" == projectController.processProjectForm(project, features, model)
     }
 }

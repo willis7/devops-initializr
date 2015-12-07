@@ -7,15 +7,16 @@ import devops.services.StashService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET
+import static org.springframework.web.bind.annotation.RequestMethod.POST
 
 /**
  * @author Sion Williams
  */
 @Controller
-@RequestMapping(value = ["/", "/project"])
+@RequestMapping(value = "/project")
 class ProjectController {
     @Autowired
     JiraService jiraService
@@ -23,16 +24,26 @@ class ProjectController {
     @Autowired
     StashService stashService
 
-    @RequestMapping(method = RequestMethod.GET)
-    String projectForm(Model model) {
+
+    @RequestMapping(method = GET)
+    String showProjectForm(Model model) {
         model.addAttribute("project", new Project())
+        model.addAttribute("features", new Features())
         return "project"
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    String projectSubmit(@ModelAttribute Project project,
-                         @ModelAttribute Features features,
-                         Model model) {
+    /**
+     * Handle form submission for creating a new project
+     *
+     * @param project
+     * @param features
+     * @param model
+     * @return String specifying the view name
+     */
+    @RequestMapping(method = POST)
+    String processProjectForm(Project project,
+                              Features features,
+                              Model model) {
 
         if (features.jira) {
             def location = jiraService.createProject(project)
