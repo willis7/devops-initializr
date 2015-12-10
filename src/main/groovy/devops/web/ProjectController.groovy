@@ -7,7 +7,11 @@ import devops.services.StashService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
+
+import javax.validation.Valid
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.POST
@@ -34,16 +38,22 @@ class ProjectController {
 
     /**
      * Handle form submission for creating a new project
-     *
      * @param project
+     * @param projectBindingResult
      * @param features
      * @param model
-     * @return String specifying the view name
+     * @return view name
      */
     @RequestMapping(method = POST)
-    String processProjectForm(Project project,
-                              Features features,
-                              Model model) {
+    String processProjectForm(
+        @ModelAttribute @Valid Project project,
+        BindingResult projectBindingResult,
+        Features features,
+        Model model) {
+
+        if (projectBindingResult.hasErrors()) {
+            return "project"
+        }
 
         if (features.jira) {
             def location = jiraService.createProject(project)
@@ -56,6 +66,6 @@ class ProjectController {
         }
 
         model.addAttribute("project", project)
-        return "result"
+        return "redirect:/result"
     }
 }

@@ -22,23 +22,37 @@
 <div class="container">
     <p>Please provide the details below for on-boarding onto the applications selected below.</p>
 
-    <form action="#" th:action="@{/project}" method="post">
+    <form th:action="@{/project}" method="post">
         <div class="form-group">
+            <!-- PROJECT KEY -->
             <label th:for="${#ids.next('key')}">Project Key:</label>
             <input type="text" class="form-control" th:field="${project.key}"/>
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('project.key')}"
+                 th:errors="${project.key}"/>
 
+            <!-- PROJECT NAME -->
             <label th:for="${#ids.next('name')}">Project Name:</label>
             <input type="text" class="form-control" th:field="${project.name}"/>
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('project.name')}"
+                 th:errors="${project.name}"/>
 
+            <!-- PROJECT TYPE -->
             <label th:for="${#ids.next('projectTypeKey')}">Project Type Key:</label>
             <input type="text" class="form-control" th:field="${project.projectTypeKey}"/>
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('project.projectTypeKey')}"
+                 th:errors="${project.projectTypeKey}"/>
 
+            <!-- PROJECT LEAD -->
             <label th:for="${#ids.next('lead')}">Project Lead:</label>
             <input type="text" class="form-control" th:field="${project.lead}"/>
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('project.lead')}"
+                 th:errors="${project.lead}"/>
 
+            <!-- FEATURE JIRA -->
             <input type="checkbox" th:field="${features.jira}" name="jira"/>
             <label th:for="${#ids.prev('jira')}">Jira</label>
 
+            <!-- FEATURE STASH -->
             <input type="checkbox" th:field="${features.stash}" name="stash"/>
             <label th:for="${#ids.prev('stash')}">Stash</label>
         </div>
