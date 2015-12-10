@@ -14,6 +14,7 @@ apply plugin: 'spring-boot'
 apply from: "${rootDir}/gradle/integTest.gradle"
 //apply from: "${rootDir}/gradle/codenarc.gradle"
 apply from: "${rootDir}/gradle/jacoco.gradle"
+apply from: "${rootDir}/gradle/license.gradle"
 
 jar {
     baseName = 'devops-initializr'
