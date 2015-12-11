@@ -24,15 +24,11 @@
 package devops.web
 
 import devops.Application
-import devops.domain.Project
-import devops.services.JiraService
-import devops.services.StashService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.validation.BindingResult
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.servlet.view.InternalResourceViewResolver
 import spock.lang.Shared
@@ -61,17 +57,10 @@ public class ProjectControllerIntegSpec extends Specification {
     @Shared
     private MockMvc mockMvc
 
-    ProjectController projectController
-    BindingResult bindingResultMock = Mock()
-    JiraService jiraServiceMock = Mock()
-    StashService stashServiceMock = Mock()
+    ProjectController projectController = new ProjectController()
 
     void setup() {
         if (!sharedSetupDone) {
-            projectController = new ProjectController()
-            projectController.jiraService = jiraServiceMock
-            projectController.stashService = stashServiceMock
-
             mockMvc = standaloneSetup(projectController).setViewResolvers(templateResolver()).build()
         }
     }
