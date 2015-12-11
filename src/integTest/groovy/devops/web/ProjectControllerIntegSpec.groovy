@@ -24,18 +24,24 @@
 package devops.web
 
 import devops.Application
+import devops.domain.Project
+import devops.services.JiraService
+import devops.services.StashService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.validation.BindingResult
 import org.springframework.web.context.WebApplicationContext
-import spock.lang.Ignore
+import org.springframework.web.servlet.view.InternalResourceViewResolver
 import spock.lang.Shared
 import spock.lang.Specification
 
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 
 /**
  * @author Sion Williams
@@ -44,10 +50,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebAppConfiguration
 public class ProjectControllerIntegSpec extends Specification {
 
+    public static final String VIEW = "/project"
+
     @Shared
     def sharedSetupDone = false
-
-//    ProjectController projectController
 
     @Autowired
     private WebApplicationContext context
@@ -55,31 +61,41 @@ public class ProjectControllerIntegSpec extends Specification {
     @Shared
     private MockMvc mockMvc
 
+    ProjectController projectController
+    BindingResult bindingResultMock = Mock()
+    JiraService jiraServiceMock = Mock()
+    StashService stashServiceMock = Mock()
+
     void setup() {
-        // sharedSetupDone is a hack because @Autowired webApplicationContext is not yet available in setupSpec()
         if (!sharedSetupDone) {
-            mockMvc = MockMvcBuilders.webAppContextSetup(context).build()
-            sharedSetupDone = true
+            projectController = new ProjectController()
+            projectController.jiraService = jiraServiceMock
+            projectController.stashService = stashServiceMock
+
+            mockMvc = standaloneSetup(projectController).setViewResolvers(templateResolver()).build()
         }
-//        projectController = new ProjectController()
-//        mockMvc = standaloneSetup(projectController)
-//            .setSingleView(new InternalResourceView("/templates/project.html"))
-//            .build()
     }
 
-    @Ignore("Fix me")
-    void "GET on /project returns project.html"() {
-        when:
-        def response = mockMvc.perform(get("/project")).andReturn().response
-
-        then:
-        response.status == 200
-        response.contentType.contains('text/html')
-        response.contentAsString.contains('DevOps Initializr')
+    InternalResourceViewResolver templateResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/templates/");
+        viewResolver.setSuffix(".html");
+        return viewResolver;
     }
 
-    @Ignore("Fix me")
-    void "should process form"() {
+    void "get on /project should show correct page"() {
+        expect:
+        mockMvc.perform(get(VIEW))
+            .andExpect(view().name("project"))
+    }
 
+    void "post on /project with valid args shows results"() {
+        expect:
+        mockMvc.perform(post(VIEW)
+            .param("key", "key")
+            .param("name", "name")
+            .param("projectTypeKey", "projectTypeKey")
+            .param("lead", "lead"))
+            .andExpect(view().name("result"))
     }
 }

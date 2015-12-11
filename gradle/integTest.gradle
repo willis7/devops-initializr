@@ -15,8 +15,8 @@ task integrationTest(type: Test) {
     mustRunAfter test
 
     reports {
-        html.destination = project.file("$html.destination/integration")
-        junitXml.destination = project.file("$junitXml.destination/integration")
+        html.destination = project.file("${buildDir}/reports/integration")
+        junitXml.destination = project.file("${buildDir}/integration-results")
     }
 }
 

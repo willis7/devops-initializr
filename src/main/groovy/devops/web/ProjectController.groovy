@@ -89,6 +89,6 @@ class ProjectController {
         }
 
         model.addAttribute("project", project)
-        return "redirect:/result"
+        return "result"
     }
 }

@@ -59,7 +59,7 @@ class ProjectControllerSpec extends Specification {
         projectController.processProjectForm(projectMock, bindingResultMock, featuresMock, modelMock)
 
         then:
-        1 * jiraServiceMock.createProject(_)
+        1 * jiraServiceMock.createProject(_ as Project)
     }
 
     def "calling projectSubmit() doesnt call jira service when unchecked"() {
@@ -70,7 +70,7 @@ class ProjectControllerSpec extends Specification {
         projectController.processProjectForm(projectMock, bindingResultMock, featuresMock, modelMock)
 
         then:
-        0 * jiraServiceMock.createProject(_)
+        0 * jiraServiceMock.createProject(_ as Project)
     }
 
     def "calling projectSubmit() calls stash service when checked"() {
@@ -81,7 +81,7 @@ class ProjectControllerSpec extends Specification {
         projectController.processProjectForm(projectMock, bindingResultMock, featuresMock, modelMock)
 
         then:
-        1 * stashServiceMock.createProject(_)
+        1 * stashServiceMock.createProject(_ as Project)
     }
 
     def "calling projectSubmit() doesnt call stash service when unchecked"() {
@@ -92,11 +92,6 @@ class ProjectControllerSpec extends Specification {
         projectController.processProjectForm(projectMock, bindingResultMock, featuresMock, modelMock)
 
         then:
-        0 * stashServiceMock.createProject(_)
-    }
-
-    def "projectSubmit() should return the 'result' view when successful"() {
-        expect:
-        "redirect:/result" == projectController.processProjectForm(projectMock, bindingResultMock, featuresMock, modelMock)
+        0 * stashServiceMock.createProject(_ as Project)
     }
 }
